@@ -113,6 +113,43 @@ public class Crawler extends WebCrawler {
 	    }
 	}
 	
+	/**
+	   * This function is called once the header of a page is fetched. It can be
+	   * overridden by sub-classes to perform custom logic for different status
+	   * codes. For example, 404 pages can be logged, etc.
+	   *
+	   * @param webUrl WebUrl containing the statusCode
+	   * @param statusCode Html Status Code number
+	   * @param statusDescription Html Status COde description
+	   */
+	@Override
+	protected void handlePageStatusCode(WebURL webUrl, int statusCode, String statusDescription) {
+	    // Do nothing by default
+	    // Sub-classed can override this to add their custom functionality
+		System.out.println("handle page status");
+		if(statusCode >= 200 && statusCode < 300){ //Success
+			try {
+				writer.WriteStat(webUrl.getURL(), 2);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(statusCode >= 300 && statusCode <400){ //Aborted
+			try {
+				writer.WriteStat(webUrl.getURL(), 3);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{ //failed
+			try {
+				writer.WriteStat(webUrl.getURL(), 4);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	@Override
 	public boolean shouldVisit(Page referringPage, WebURL url) {

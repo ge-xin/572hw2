@@ -14,6 +14,7 @@ public class Controller {
 	private FileWriter fetch_csv;
 	private FileWriter visit_csv;
 	private FileWriter urls_csv;
+	private FileWriter stat_csv;
 	
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
@@ -24,7 +25,7 @@ public class Controller {
 		config.setPolitenessDelay(1000);
 		
 		//Set the pages fetching limit.
-		config.setMaxPagesToFetch(5000);
+		config.setMaxPagesToFetch(20);
 		config.setUserAgentString("USC_CS_Crawler");
 		
 		/*
@@ -57,7 +58,7 @@ public class Controller {
 		//Crawler crawler = new Crawler();
 		
 		
-		WriteCSV writer = new WriteCSV("fetch.csv", "visit.csv", "urls.csv");
+		WriteCSV writer = new WriteCSV("fetch.csv", "visit.csv", "urls.csv", "stat.csv");
 		Crawler.configure(crawlStorageFolder, writer);
 		
 		controller.start(Crawler.class, numberOfCrawlers);
