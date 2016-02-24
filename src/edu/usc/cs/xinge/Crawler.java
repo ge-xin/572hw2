@@ -126,7 +126,7 @@ public class Crawler extends WebCrawler {
 	protected void handlePageStatusCode(WebURL webUrl, int statusCode, String statusDescription) {
 	    // Do nothing by default
 	    // Sub-classed can override this to add their custom functionality
-		System.out.println("handle page status");
+		//System.out.println("handle page status");
 		if(statusCode >= 200 && statusCode < 300){ //Success
 			try {
 				writer.WriteStat(webUrl.getURL(), 2);
@@ -134,12 +134,32 @@ public class Crawler extends WebCrawler {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			
+			//Write URL visited and HTTP code Received in to fetch.csv
+			try{
+				//System.out.println("I am writing fetch.csv");
+				writer.WriteFetch(webUrl.getURL(), statusCode);
+			}catch(Exception e){
+				logger.error("Error occured while writing fetch.csv" + webUrl.getURL() + statusCode, e);
+			}
+			
 		}else if(statusCode >= 300 && statusCode <400){ //Aborted
 			try {
 				writer.WriteStat(webUrl.getURL(), 3);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				
+				
+				
+				//Write URL visited and HTTP code Received in to fetch.csv
+				try{
+					//System.out.println("I am writing fetch.csv");
+					writer.WriteFetch(webUrl.getURL(), statusCode);
+				}catch(Exception e1){
+					logger.error("Error occured while writing fetch.csv" + webUrl.getURL() + statusCode, e1);
+				}
 			}
 		}else{ //failed
 			try {
@@ -184,6 +204,7 @@ public class Crawler extends WebCrawler {
     public void visit(Page page) {
 		String url = page.getWebURL().getURL(); System.out.println("URL: " + url);
 		
+		/*
 		//Get the http code
 		WebURL curURL = new WebURL();
 		curURL.setURL(url);
@@ -218,7 +239,7 @@ public class Crawler extends WebCrawler {
 		System.out.println("GetContentType Begins");
 		System.out.println(page.getContentType());
 		System.out.println("GetContentType Ends");
-		
+		*/
 		
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData(); 
@@ -267,6 +288,7 @@ public class Crawler extends WebCrawler {
 		    } catch (IOException iox) {
 		      logger.error("Failed to write file: " + filename, iox);
 		    }
+		    
 		}
 		
 		//Download the Binary file
@@ -278,7 +300,8 @@ public class Crawler extends WebCrawler {
 			
 			
 			if(isDocFile(page)){// this is a doc file
-	    		logger.log(null, "This binary file" + url + "is DOC");
+	    		//logger.log(null, "This binary file" + url + "is DOC");
+	    		
 	    		try {
 					writer.WriteVisit(url, fileSize, links.size(), "DOC");
 				} catch (IOException e) {
@@ -296,10 +319,11 @@ public class Crawler extends WebCrawler {
 	 		    } catch (IOException iox) {
 	 		      logger.error("Failed to write file: " + filename, iox);
 	 		    }
+	 		    
 	    		
 	    	}else if(isDocxFile(page)){ //this is a docx file
-	    		System.out.println("Binary Begins");
-	    		logger.log(null, "This binary file" + url + "is DOCX");
+	    		//System.out.println("Binary Begins");
+	    		//logger.log(null, "This binary file" + url + "is DOCX");
 	    		
 	    		try {
 					writer.WriteVisit(url, fileSize, links.size(), "DOCX");
@@ -307,6 +331,7 @@ public class Crawler extends WebCrawler {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+	    		
 	    		
 	    		String hashedName = UUID.randomUUID().toString();
 	 		    // store image
@@ -319,7 +344,7 @@ public class Crawler extends WebCrawler {
 	 		    }
 	    		
 	    	}else if(isPDFFile(page)){ //This is a PDF file
-	    		logger.log(null, "This binary file" + url + "is PDF");
+	    		//logger.log(null, "This binary file" + url + "is PDF");
 	    		
 	    		try {
 					writer.WriteVisit(url, fileSize, links.size(), "PDF");
@@ -339,6 +364,7 @@ public class Crawler extends WebCrawler {
 	 		    }
 	    	}else{
 	    		logger.log(null, "This binary file" + url + "is not what we want");
+	    		
 	    	}
 			
 			

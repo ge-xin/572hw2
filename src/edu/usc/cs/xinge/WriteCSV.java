@@ -61,12 +61,14 @@ public class WriteCSV {
 	public void WriteFetch(String url, int statusCode) throws IOException{
 		String toWrite = url + ", " + statusCode + "\n";
 		fetch_csv.write(toWrite);
+		fetch_csv.flush();
 	}
 	
 	//write the visit.csv
 	public void WriteVisit(String url, float fileSize, int outlinks, String contentType) throws IOException{
 		String toWrite = url + ", " + fileSize + ", " + outlinks + ", " + contentType + "\n";
 		visit_csv.write(toWrite);
+		visit_csv.flush();
 	}
 	
 	
@@ -74,6 +76,7 @@ public class WriteCSV {
 	public void WriteURLs(String url, String decision) throws IOException{
 		String toWrite = url + ", " + decision + "\n";
 		urls_csv.write(toWrite);
+		urls_csv.flush();
 	}
 	
 	//write the stat.csv
@@ -83,6 +86,7 @@ public class WriteCSV {
 		//System.out.println(url + "   " + code);
 		String toWrite = url + ", " + code + "\n";
 		stat_csv.write(toWrite);
+		stat_csv.flush();
 	}
 		
 	

@@ -18,14 +18,14 @@ public class Controller {
 	
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
-		String crawlStorageFolder = "data/crawl/"; int numberOfCrawlers = 10;
+		String crawlStorageFolder = "data/crawl/"; int numberOfCrawlers = 7;
 		CrawlConfig config = new CrawlConfig(); 
 		config.setCrawlStorageFolder(crawlStorageFolder);
 		config.setMaxDepthOfCrawling(5);
 		config.setPolitenessDelay(1000);
 		
 		//Set the pages fetching limit.
-		config.setMaxPagesToFetch(20);
+		config.setMaxPagesToFetch(50);
 		config.setUserAgentString("USC_CS_Crawler");
 		
 		/*
