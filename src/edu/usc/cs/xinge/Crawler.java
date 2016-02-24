@@ -85,10 +85,7 @@ public class Crawler extends WebCrawler {
 	
    
 	
-	
-	@Override
-	public boolean shouldVisit(Page referringPage, WebURL url) {
-		String href = url.getURL().toLowerCase();
+	protected void RecordURL(String href){
 		if(LAW_FILTER.matcher(href).matches() || LAW_FILTER2.matcher(href).matches()
 				|| LAW_FILTER3.matcher(href).matches()){
 			 //it is a url that inside the law school website
@@ -114,6 +111,13 @@ public class Crawler extends WebCrawler {
 			}
 				 
 	    }
+	}
+	
+	
+	@Override
+	public boolean shouldVisit(Page referringPage, WebURL url) {
+		String href = url.getURL().toLowerCase();
+		RecordURL(href);
 		
 		return !FILTERS.matcher(href).matches() && href.startsWith("http://gould.usc.edu/");
 	}
