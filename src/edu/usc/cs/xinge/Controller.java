@@ -15,11 +15,12 @@ public class Controller {
 	
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
-		String crawlStorageFolder = "data/crawl/"; int numberOfCrawlers = 20;
+		String crawlStorageFolder = "data/crawl/"; int numberOfCrawlers = 200;
 		CrawlConfig config = new CrawlConfig(); 
 		config.setCrawlStorageFolder(crawlStorageFolder);
 		config.setMaxDepthOfCrawling(5);
-		config.setPolitenessDelay(1000);
+		config.setPolitenessDelay(50);
+		
 		
 		//Set the pages fetching limit.
 		config.setMaxPagesToFetch(5000);
@@ -37,8 +38,10 @@ public class Controller {
          */
 		PageFetcher pageFetcher = new PageFetcher(config);
 		RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
+		robotstxtConfig.setEnabled(true);
 		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher); 
 		CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
+		//CrawlController controller = new CrawlController(config, pageFetcher, null);
 		/*
 		* For each crawl, you need to add some seed urls. These are the first
 		* URLs that are fetched and then the crawler starts following links * which are found in these pages

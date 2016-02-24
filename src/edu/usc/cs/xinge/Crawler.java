@@ -22,6 +22,9 @@ import edu.uci.ics.crawler4j.url.WebURL;
 public class Crawler extends WebCrawler {
 	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg"
 			+ "|png|mp3|mp3|zip|gz))$");
+	private final static Pattern JPEG_FILTERS = Pattern.compile(".*(jpeg|jpg)");
+	private final static Pattern GIF_FILTERS = Pattern.compile(".*(gif)");
+	private final static Pattern PNG_FILTERS = Pattern.compile(".*(png)");
 	
 	//the regexp detect whether it belongs to law school
 	private final static Pattern LAW_FILTER = Pattern.compile(".*gould.usc.edu.*");
@@ -175,22 +178,45 @@ public class Crawler extends WebCrawler {
 	public boolean shouldVisit(Page referringPage, WebURL url) {
 		String href = url.getURL().toLowerCase();
 		RecordURL(href);
+		System.out.println(referringPage.getContentType());
 		
-		if(referringPage.getContentType() == "image/gif" 
-				|| referringPage.getContentType() == "image/jpeg"
-					||referringPage.getContentCharset() == "image/png"){
+		boolean startWith = (href.startsWith("http://gould.usc.edu/")
+				|| href.startsWith("http://mylaw2.usc.edu/")
+				||href.startsWith("http://weblaw.usc.edu/")
+					||href.startsWith("http://lawlibguides.usc.edu/"));
+		
+		
+		if(PNG_FILTERS.matcher(href).matches() && startWith){
 			try {
-				writer.WritePic(href, referringPage.getContentType());
+				writer.WritePic(href, "image/png");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
-		return !FILTERS.matcher(href).matches() && (href.startsWith("http://gould.usc.edu/")
-							|| href.startsWith("http://mylaw2.usc.edu/")
-								||href.startsWith("http://weblaw.usc.edu/")
-									||href.startsWith("http://lawlibguides.usc.edu/"));
+		if(GIF_FILTERS.matcher(href).matches() && startWith){
+			try {
+				writer.WritePic(href, "image/gif");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if(JPEG_FILTERS.matcher(href).matches() && startWith){
+			try {
+				System.out.println("writing pic:");
+				writer.WritePic(href, "image/jpeg");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
+		return (!FILTERS.matcher(href).matches() && startWith);
 	}
 	
 	public boolean isDocxFile(Page page){
@@ -215,42 +241,7 @@ public class Crawler extends WebCrawler {
     public void visit(Page page) {
 		String url = page.getWebURL().getURL(); System.out.println("URL: " + url);
 		
-		/*
-		//Get the http code
-		WebURL curURL = new WebURL();
-		curURL.setURL(url);
 		
-		PageFetchResult fetchResult = new PageFetchResult();
-		
-		CrawlConfig config = new CrawlConfig();
-		PageFetcher pageFetcher = new PageFetcher(config);
-		
-		int statusCode = 0;
-		try{
-			fetchResult = pageFetcher.fetchPage(curURL);
-			statusCode = fetchResult.getStatusCode();
-		}catch(Exception e){
-			logger.error("Error occurred while fetching url: " + curURL.getURL(), e);
-		}finally{
-			if (fetchResult != null){
-		        fetchResult.discardContentIfNotConsumed();
-		    }
-		}
-		
-		
-		//Write URL visited and HTTP code Received in to fetch.csv
-		try{
-			//System.out.println("I am writing fetch.csv");
-			writer.WriteFetch(url, statusCode);
-		}catch(Exception e){
-			logger.error("Error occured while writing fetch.csv" + url + statusCode, e);
-		}
-		
-		
-		System.out.println("GetContentType Begins");
-		System.out.println(page.getContentType());
-		System.out.println("GetContentType Ends");
-		*/
 		
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData(); 
@@ -262,9 +253,6 @@ public class Crawler extends WebCrawler {
 			Set<WebURL> links = htmlParseData.getOutgoingUrls();
 			
 			
-			//System.out.println("Text length: " + text.length()); 
-			//System.out.println("Html length: " + html.length()); 
-			//System.out.println("Number of outgoing links: " + links.size());
 			
 			try {
 				writer.WriteVisit(url, html.length() / 1024, links.size(), "HTML");
@@ -345,7 +333,7 @@ public class Crawler extends WebCrawler {
 	    		
 	    		
 	    		String hashedName = UUID.randomUUID().toString();
-	 		    // store image
+	 		    // store binary data, which is pdf, doc, docx
 	 		    String filename = storageFolder.getAbsolutePath() + "/" + hashedName + ".docx";
 	 		    try {
 	 		      Files.write(page.getContentData(), new File(filename));
