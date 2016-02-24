@@ -176,6 +176,17 @@ public class Crawler extends WebCrawler {
 		String href = url.getURL().toLowerCase();
 		RecordURL(href);
 		
+		if(referringPage.getContentType() == "image/gif" 
+				|| referringPage.getContentType() == "image/jpeg"
+					||referringPage.getContentCharset() == "image/png"){
+			try {
+				writer.WritePic(href, referringPage.getContentType());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		return !FILTERS.matcher(href).matches() && (href.startsWith("http://gould.usc.edu/")
 							|| href.startsWith("http://mylaw2.usc.edu/")
 								||href.startsWith("http://weblaw.usc.edu/")

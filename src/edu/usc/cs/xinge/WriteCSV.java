@@ -34,12 +34,14 @@ public class WriteCSV {
 	private FileWriter visit_csv;
 	private FileWriter urls_csv;
 	private FileWriter stat_csv;
+	private FileWriter pic_csv;
 	
-	public WriteCSV(String fetch, String visit, String urls, String stat) throws IOException{
+	public WriteCSV(String fetch, String visit, String urls, String stat, String pic) throws IOException{
 		fetch_csv = new FileWriter(fetch, false);
 		visit_csv = new FileWriter(visit, false);
 		urls_csv = new FileWriter(urls, false);
 		stat_csv = new FileWriter(stat, false);
+		pic_csv = new FileWriter(pic, false);
 	}
 	
 	public void Finish() throws IOException{
@@ -54,6 +56,9 @@ public class WriteCSV {
 		
 		stat_csv.flush();
 		stat_csv.close();
+		
+		pic_csv.flush();
+		pic_csv.close();
 	}
 	
 	
@@ -81,15 +86,17 @@ public class WriteCSV {
 	
 	//write the stat.csv
 	public void WriteStat(String url, int code) throws IOException{
-		//String toWrite = url + ", " + code + "\n";
-		//System.out.println("Write Stat:");
-		//System.out.println(url + "   " + code);
+		
 		String toWrite = url + ", " + code + "\n";
 		stat_csv.write(toWrite);
 		stat_csv.flush();
 	}
 		
-	
+	public void WritePic(String url, String type) throws IOException{
+		String toWrite = url + ", " + type + "\n";
+		pic_csv.write(toWrite);
+		pic_csv.flush();
+	}
 	
 	
 }
