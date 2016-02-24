@@ -34,8 +34,8 @@ public class WriteCSV {
 	}
 	
 	//write the visit.csv
-	public void WriteVisit(String url, int size, int outlinks, String contentType) throws IOException{
-		String toWrite = url + ", " + size + ", " + outlinks + ", " + contentType + "\n";
+	public void WriteVisit(String url, float fileSize, int outlinks, String contentType) throws IOException{
+		String toWrite = url + ", " + fileSize + ", " + outlinks + ", " + contentType + "\n";
 		visit_csv.write(toWrite);
 	}
 	

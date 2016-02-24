@@ -119,9 +119,26 @@ public class Crawler extends WebCrawler {
 		String href = url.getURL().toLowerCase();
 		RecordURL(href);
 		
-		return !FILTERS.matcher(href).matches() && href.startsWith("http://gould.usc.edu/");
+		return !FILTERS.matcher(href).matches() && (href.startsWith("http://gould.usc.edu/")
+							|| href.startsWith("http://mylaw2.usc.edu/")
+								||href.startsWith("http://weblaw.usc.edu/")
+									||href.startsWith("http://lawlibguides.usc.edu/"));
 	}
 	
+	public boolean isDocxFile(Page page){
+		String type = page.getContentType();
+		return (type.indexOf("application/vnd.openxmlformats-officedocument.wordprocessingml.document") != -1);
+	}
+	
+	public boolean isDocFile(Page page){
+		String type = page.getContentType();
+		return (type.indexOf("application/msword") != -1);
+	}
+	
+	public boolean isPDFFile(Page page){
+		String type = page.getContentType();
+		return (type.indexOf("application/msword") != -1);
+	}
 	
 	/**
 	* This function is called when a page is fetched and ready * to be processed by your program.
@@ -161,30 +178,34 @@ public class Crawler extends WebCrawler {
 		}
 		
 		
+		System.out.println("GetContentType Begins");
+		System.out.println(page.getContentType());
+		System.out.println("GetContentType Ends");
+		
 		
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData(); 
 			String text = htmlParseData.getText();
 			String html = htmlParseData.getHtml();
 			
+			
+			
 			Set<WebURL> links = htmlParseData.getOutgoingUrls();
-			System.out.println("Text length: " + text.length()); 
-			System.out.println("Html length: " + html.length()); 
-			System.out.println("Number of outgoing links: " + links.size());
 			
-			//For the URLs attempts to fetch
-			// URL, HTTP Code Received
 			
-			//URL has been fetched.
+			//System.out.println("Text length: " + text.length()); 
+			//System.out.println("Html length: " + html.length()); 
+			//System.out.println("Number of outgoing links: " + links.size());
 			
-			//Get the HTTP Code
-			
+			try {
+				writer.WriteVisit(url, html.length() / 1024, links.size(), "HTML");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			//For the files if successfully downloads
 			//URL successfully download, size of file, the num of outlinks, resulting content type
-			
-			
-			
 			
 			
 			//Download and store the data
@@ -202,7 +223,7 @@ public class Crawler extends WebCrawler {
 		    
 		    String hashedName = UUID.randomUUID().toString();
 		    // store image
-		    String filename = storageFolder.getAbsolutePath() + "/" + hashedName;
+		    String filename = storageFolder.getAbsolutePath() + "/" + hashedName + ".html";
 		    try {
 		      Files.write(page.getContentData(), new File(filename));
 		      logger.info("Stored: {}", url);
@@ -210,5 +231,80 @@ public class Crawler extends WebCrawler {
 		      logger.error("Failed to write file: " + filename, iox);
 		    }
 		}
+		
+		//Download the Binary file
+		if (page.getParseData() instanceof BinaryParseData) {
+			float fileSize = page.getContentData().length / 1024;
+			
+			BinaryParseData binaryParseData = (BinaryParseData) page.getParseData(); 
+			Set<WebURL> links = binaryParseData.getOutgoingUrls();
+			
+			
+			if(isDocFile(page)){// this is a doc file
+	    		logger.log(null, "This binary file" + url + "is DOC");
+	    		try {
+					writer.WriteVisit(url, fileSize, links.size(), "DOC");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		
+	    		
+	    		String hashedName = UUID.randomUUID().toString();
+	 		    // store image
+	 		    String filename = storageFolder.getAbsolutePath() + "/" + hashedName + ".doc";
+	 		    try {
+	 		      Files.write(page.getContentData(), new File(filename));
+	 		      logger.info("Stored: {}", url);
+	 		    } catch (IOException iox) {
+	 		      logger.error("Failed to write file: " + filename, iox);
+	 		    }
+	    		
+	    	}else if(isDocxFile(page)){ //this is a docx file
+	    		System.out.println("Binary Begins");
+	    		logger.log(null, "This binary file" + url + "is DOCX");
+	    		
+	    		try {
+					writer.WriteVisit(url, fileSize, links.size(), "DOCX");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		
+	    		String hashedName = UUID.randomUUID().toString();
+	 		    // store image
+	 		    String filename = storageFolder.getAbsolutePath() + "/" + hashedName + ".docx";
+	 		    try {
+	 		      Files.write(page.getContentData(), new File(filename));
+	 		      logger.info("Stored: {}", url);
+	 		    } catch (IOException iox) {
+	 		      logger.error("Failed to write file: " + filename, iox);
+	 		    }
+	    		
+	    	}else if(isPDFFile(page)){ //This is a PDF file
+	    		logger.log(null, "This binary file" + url + "is PDF");
+	    		
+	    		try {
+					writer.WriteVisit(url, fileSize, links.size(), "PDF");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		
+	    		String hashedName = UUID.randomUUID().toString();
+	 		    // store image
+	 		    String filename = storageFolder.getAbsolutePath() + "/" + hashedName + ".pdf";
+	 		    try {
+	 		      Files.write(page.getContentData(), new File(filename));
+	 		      logger.info("Stored: {}", url);
+	 		    } catch (IOException iox) {
+	 		      logger.error("Failed to write file: " + filename, iox);
+	 		    }
+	    	}else{
+	    		logger.log(null, "This binary file" + url + "is not what we want");
+	    	}
+			
+			
+	    }
 	}
 }
