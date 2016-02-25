@@ -345,6 +345,17 @@ public class Crawler extends WebCrawler {
 	 		      logger.error("Failed to write file: " + filename, iox);
 	 		    }
 	 		}else if(isPicFile(page)){
+	 			//according to the new definition, I should add it into visit.csv
+	 			String type = page.getContentType();
+	 			type = type.substring(type.lastIndexOf("/"));
+	 			try {
+					writer.WriteVisit(url, fileSize, links.size(), type);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		
+	 			//write into pic.csv to account the num of each type
 	 			try {
 					writer.WritePic(url, page.getContentType());
 				} catch (IOException e) {
