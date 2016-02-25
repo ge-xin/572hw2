@@ -1,6 +1,5 @@
 *.class
 *.pdf
-*.csv
 *.project
 data/
 bin/

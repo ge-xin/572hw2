@@ -19,12 +19,12 @@ public class Controller {
 		CrawlConfig config = new CrawlConfig(); 
 		config.setCrawlStorageFolder(crawlStorageFolder);
 		config.setMaxDepthOfCrawling(5);
-		config.setPolitenessDelay(50);
+		config.setPolitenessDelay(20);
 		
 		
 		//Set the pages fetching limit.
-		config.setMaxPagesToFetch(5000);
-		config.setUserAgentString("USC_CS_Crawler");
+		config.setMaxPagesToFetch(5300);
+		config.setUserAgentString("USC_CS_Crawler1");
 		
 		/*
 	     * Since images are binary content, we need to set this parameter to

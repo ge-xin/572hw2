@@ -1,0 +1,45 @@
+Name: Xin Ge
+USC ID: 7310636145
+School crawled: Law
+Fetch Statistics
+================
+# fetches attempted: 5173
+# fetches succeeded: 4976
+# fetches aborted: 174
+# fetches failed: 23
+Outgoing URLs: 
+==============
+Total URLs extracted: 92873
+# unique URLs extracted: 14784
+# unique URLs within School: 12355
+# unique USC URLs outside School: 185
+# unique URLs outside USC: 2244
+Status Codes:
+=============
+200 OK: 	4976
+301 Moved Permanently: 	137
+302 302 Found:	37	
+401 Unauthorized:    0
+403 Forbidden:   0
+404 Not Found: 23
+File Sizes:
+===========
+< 1KB:  141
+1KB ~ <10KB:  321	
+10KB ~ <100KB:  310
+100KB ~ <1MB:  4038
+>= 1MB: 0
+Content Types:
+==============
+text/html: 3144
+image/gif: 54
+image/jpeg: 1575
+image/png: 37
+application/pdf:  0
+application/msword: 0
+application/vnd.openxmlformats-officedocument.wordprocessingml.document: 0
+
+
+For the pdf and word document:
+PDFs are forbidden to crawl because robot.txt
+Word document(doc, docx) will appear if we set depth to 6, but I set to 5 as suggested.
