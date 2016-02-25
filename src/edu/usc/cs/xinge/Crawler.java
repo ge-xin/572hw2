@@ -136,7 +136,7 @@ public class Crawler extends WebCrawler {
 		//System.out.println("handle page status");
 		if(statusCode >= 200 && statusCode < 300){ //Success
 			try {
-				writer.WriteStat(webUrl.getURL(), 2);
+				writer.WriteStat(webUrl.getURL(), statusCode);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -153,7 +153,7 @@ public class Crawler extends WebCrawler {
 			
 		}else if(statusCode >= 300 && statusCode <400){ //Aborted
 			try {
-				writer.WriteStat(webUrl.getURL(), 3);
+				writer.WriteStat(webUrl.getURL(), statusCode);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -170,7 +170,7 @@ public class Crawler extends WebCrawler {
 			}
 		}else{ //failed
 			try {
-				writer.WriteStat(webUrl.getURL(), 4);
+				writer.WriteStat(webUrl.getURL(), statusCode);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
