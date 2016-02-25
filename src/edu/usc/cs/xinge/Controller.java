@@ -15,7 +15,7 @@ public class Controller {
 	
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
-		String crawlStorageFolder = "data/crawl/"; int numberOfCrawlers = 200;
+		String crawlStorageFolder = "data/crawl/"; int numberOfCrawlers = 500;
 		CrawlConfig config = new CrawlConfig(); 
 		config.setCrawlStorageFolder(crawlStorageFolder);
 		config.setMaxDepthOfCrawling(5);
@@ -23,7 +23,7 @@ public class Controller {
 		
 		
 		//Set the pages fetching limit.
-		config.setMaxPagesToFetch(5000);
+		config.setMaxPagesToFetch(5300);
 		config.setUserAgentString("USC_CS_Crawler");
 		
 		/*
