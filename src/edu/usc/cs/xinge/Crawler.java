@@ -20,8 +20,12 @@ import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
 public class Crawler extends WebCrawler {
+	/*
 	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg"
 			+ "|png|mp3|mp3|zip|gz))$");
+	*/
+	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js"
+			+ "|mp3|mp3|zip|gz))$");
 	private final static Pattern JPEG_FILTERS = Pattern.compile(".*(jpeg|jpg)");
 	private final static Pattern GIF_FILTERS = Pattern.compile(".*(gif)");
 	private final static Pattern PNG_FILTERS = Pattern.compile(".*(png)");
@@ -186,35 +190,6 @@ public class Crawler extends WebCrawler {
 					||href.startsWith("http://lawlibguides.usc.edu/"));
 		
 		
-		if(PNG_FILTERS.matcher(href).matches() && startWith){
-			try {
-				writer.WritePic(href, "image/png");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		if(GIF_FILTERS.matcher(href).matches() && startWith){
-			try {
-				writer.WritePic(href, "image/gif");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		if(JPEG_FILTERS.matcher(href).matches() && startWith){
-			try {
-				System.out.println("writing pic:");
-				writer.WritePic(href, "image/jpeg");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		
 		
 		return (!FILTERS.matcher(href).matches() && startWith);
 	}
@@ -232,6 +207,14 @@ public class Crawler extends WebCrawler {
 	public boolean isPDFFile(Page page){
 		String type = page.getContentType();
 		return (type.indexOf("application/msword") != -1);
+	}
+	
+	public boolean isPicFile(Page page){
+		String type = page.getContentType();
+		boolean isJPG = (type.indexOf("image/jpeg") != -1);
+		boolean isPNG = (type.indexOf("image/png") != -1);
+		boolean isGIF = (type.indexOf("image/gif") != -1);
+		return (isJPG || isPNG || isGIF);
 	}
 	
 	/**
@@ -361,7 +344,15 @@ public class Crawler extends WebCrawler {
 	 		    } catch (IOException iox) {
 	 		      logger.error("Failed to write file: " + filename, iox);
 	 		    }
-	    	}else{
+	 		}else if(isPicFile(page)){
+	 			try {
+					writer.WritePic(url, page.getContentType());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	 		}
+	    	else{
 	    		logger.log(null, "This binary file" + url + "is not what we want");
 	    		
 	    	}
