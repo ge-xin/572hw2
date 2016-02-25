@@ -70,7 +70,7 @@ public class WriteCSV {
 	}
 	
 	//write the visit.csv
-	public void WriteVisit(String url, float fileSize, int outlinks, String contentType) throws IOException{
+	public void WriteVisit(String url, String fileSize, int outlinks, String contentType) throws IOException{
 		String toWrite = url + ", " + fileSize + ", " + outlinks + ", " + contentType + "\n";
 		visit_csv.write(toWrite);
 		visit_csv.flush();

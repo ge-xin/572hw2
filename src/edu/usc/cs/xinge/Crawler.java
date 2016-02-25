@@ -238,7 +238,7 @@ public class Crawler extends WebCrawler {
 			
 			
 			try {
-				writer.WriteVisit(url, html.length() / 1024, links.size(), "HTML");
+				writer.WriteVisit(url, ((float)(html.length() / 1024)) + "KB", links.size(), "HTML");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -285,7 +285,7 @@ public class Crawler extends WebCrawler {
 	    		//logger.log(null, "This binary file" + url + "is DOC");
 	    		
 	    		try {
-					writer.WriteVisit(url, fileSize, links.size(), "DOC");
+					writer.WriteVisit(url,  fileSize + "KB", links.size(), "DOC");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -308,7 +308,7 @@ public class Crawler extends WebCrawler {
 	    		//logger.log(null, "This binary file" + url + "is DOCX");
 	    		
 	    		try {
-					writer.WriteVisit(url, fileSize, links.size(), "DOCX");
+					writer.WriteVisit(url, fileSize + "KB", links.size(), "DOCX");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -329,7 +329,7 @@ public class Crawler extends WebCrawler {
 	    		//logger.log(null, "This binary file" + url + "is PDF");
 	    		
 	    		try {
-					writer.WriteVisit(url, fileSize, links.size(), "PDF");
+					writer.WriteVisit(url, fileSize + "KB", links.size(), "PDF");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -349,7 +349,7 @@ public class Crawler extends WebCrawler {
 	 			String type = page.getContentType();
 	 			type = type.substring(type.lastIndexOf("/"));
 	 			try {
-					writer.WriteVisit(url, fileSize, links.size(), type);
+					writer.WriteVisit(url, fileSize + "KB", links.size(), type);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
