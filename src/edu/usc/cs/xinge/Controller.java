@@ -58,7 +58,7 @@ public class Controller {
 		//Crawler crawler = new Crawler();
 		
 		
-		WriteCSV writer = new WriteCSV("fetch.csv", "visit.csv", "urls.csv", "stat.csv", "pic.csv");
+		WriteCSV writer = new WriteCSV("fetch.csv", "visit.csv", "urls.csv", "stat.csv", "pic.csv", "pagerankdata.csv");
 		Crawler.configure(crawlStorageFolder, writer);
 		
 		controller.start(Crawler.class, numberOfCrawlers);
