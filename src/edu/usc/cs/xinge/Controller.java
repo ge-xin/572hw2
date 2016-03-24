@@ -23,7 +23,7 @@ public class Controller {
 		
 		
 		//Set the pages fetching limit.
-		config.setMaxPagesToFetch(5300);
+		config.setMaxPagesToFetch(5000);
 		config.setUserAgentString("USC_CS_Crawler1");
 		
 		/*
