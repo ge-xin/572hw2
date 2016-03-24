@@ -235,7 +235,7 @@ public class Crawler extends WebCrawler {
 			
 			try {
 				writer.WriteVisit(url, ((float)(html.length() / 1024)) + "KB", links.size(), "HTML");
-				writer.WriteGraph(url, );
+				writer.WriteGraph(url, links);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -270,6 +270,7 @@ public class Crawler extends WebCrawler {
 	    		
 	    		try {
 					writer.WriteVisit(url,  fileSize + "KB", links.size(), "DOC");
+					writer.WriteGraph(url, links);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -296,6 +297,7 @@ public class Crawler extends WebCrawler {
 	    		
 	    		try {
 					writer.WriteVisit(url, fileSize + "KB", links.size(), "DOCX");
+					writer.WriteGraph(url, links);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -320,6 +322,7 @@ public class Crawler extends WebCrawler {
 	    		
 	    		try {
 					writer.WriteVisit(url, fileSize + "KB", links.size(), "PDF");
+					writer.WriteGraph(url, links);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
