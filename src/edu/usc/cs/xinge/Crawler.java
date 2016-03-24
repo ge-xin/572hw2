@@ -225,40 +225,21 @@ public class Crawler extends WebCrawler {
 		String url = page.getWebURL().getURL(); System.out.println("URL: " + url);
 		
 		
-		
+		//Download the HTML file
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData(); 
 			String text = htmlParseData.getText();
 			String html = htmlParseData.getHtml();
 			
-			
-			
 			Set<WebURL> links = htmlParseData.getOutgoingUrls();
-			
-			
 			
 			try {
 				writer.WriteVisit(url, ((float)(html.length() / 1024)) + "KB", links.size(), "HTML");
+				writer.WriteGraph(url, );
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			//For the files if successfully downloads
-			//URL successfully download, size of file, the num of outlinks, resulting content type
-			
-			
-			//Download and store the data
-			// We are only interested in processing images which are bigger than 10k
-		    if (FILTERS.matcher(url).matches()){// ||
-		    		//!(page.getParseData() instanceof BinaryParseData ||
-		    				//page.getContentData().length < 10 * 1024)) {
-		      return;
-		    }
-
-		    // get a unique name for storing this image
-		    //String extension = url.substring(url.lastIndexOf("."));
-		    //String hashedName = UUID.randomUUID().toString() + extension;
 		    
 		    
 		    String hashedName = UUID.randomUUID().toString();
@@ -267,6 +248,9 @@ public class Crawler extends WebCrawler {
 		    try {
 		      Files.write(page.getContentData(), new File(filename));
 		      logger.info("Stored: {}", url);
+		      
+		      //Write the map
+		      writer.WriteMap(url, filename);
 		    } catch (IOException iox) {
 		      logger.error("Failed to write file: " + filename, iox);
 		    }
@@ -298,6 +282,9 @@ public class Crawler extends WebCrawler {
 	 		    try {
 	 		      Files.write(page.getContentData(), new File(filename));
 	 		      logger.info("Stored: {}", url);
+	 		      
+	 		      //Write the map
+			      writer.WriteMap(url, filename);
 	 		    } catch (IOException iox) {
 	 		      logger.error("Failed to write file: " + filename, iox);
 	 		    }
@@ -321,6 +308,9 @@ public class Crawler extends WebCrawler {
 	 		    try {
 	 		      Files.write(page.getContentData(), new File(filename));
 	 		      logger.info("Stored: {}", url);
+	 		      
+	 		      //Write the map
+			      writer.WriteMap(url, filename);
 	 		    } catch (IOException iox) {
 	 		      logger.error("Failed to write file: " + filename, iox);
 	 		    }
@@ -341,6 +331,10 @@ public class Crawler extends WebCrawler {
 	 		    try {
 	 		      Files.write(page.getContentData(), new File(filename));
 	 		      logger.info("Stored: {}", url);
+
+	 		      //Write the map
+			      writer.WriteMap(url, filename);
+			      
 	 		    } catch (IOException iox) {
 	 		      logger.error("Failed to write file: " + filename, iox);
 	 		    }

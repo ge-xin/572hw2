@@ -4,11 +4,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.Set;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.ResultSet;
 import com.mysql.jdbc.Statement;
+
+import edu.uci.ics.crawler4j.url.WebURL;
 
 public class WriteCSV {
 	private FileWriter fetch_csv;
@@ -107,9 +111,15 @@ public class WriteCSV {
 	}
 	
 	//write the pagerankdata.csv
-	public void WriteGraph(String url) throws IOException{
+	public void WriteGraph(String url, Set<WebURL> links) throws IOException{
 		String toWrite = url;
+		Iterator<WebURL> it = links.iterator();
+		while(it.hasNext()){
+			toWrite = toWrite + ", " + it.next().getURL().toLowerCase();
+		}
 		
+		//a line is finished, create a enter
+		toWrite += "\n";
 		pagerank_csv.write(toWrite);
 		//pagerank_csv.flush();
 	}
