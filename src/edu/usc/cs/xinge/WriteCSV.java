@@ -31,12 +31,10 @@ public class WriteCSV {
 		pic_csv = new FileWriter(pic, false);
 		pagerank_csv = new FileWriter(pagerank, false);
 		
-		//Connect the database, and initialize variables
-		Connection con = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			con = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1/572", "root", "123");
-			if(!con.isClosed())	System.out.println("Successfully connected to MySQL sever using TCP/IP");
+			conn = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1/572", "root", "123");
+			if(!conn.isClosed())	System.out.println("Successfully connected to MySQL sever using TCP/IP");
 			else System.out.println("Failed connected to MySQL server using TCP/IP");
 				
 		}catch(Exception e){

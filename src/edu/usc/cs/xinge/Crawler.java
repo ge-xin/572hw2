@@ -250,7 +250,7 @@ public class Crawler extends WebCrawler {
 		      logger.info("Stored: {}", url);
 		      
 		      //Write the map
-		      writer.WriteMap(url, filename);
+		      writer.WriteMap(url, hashedName);
 		    } catch (IOException iox) {
 		      logger.error("Failed to write file: " + filename, iox);
 		    }
@@ -285,7 +285,7 @@ public class Crawler extends WebCrawler {
 	 		      logger.info("Stored: {}", url);
 	 		      
 	 		      //Write the map
-			      writer.WriteMap(url, filename);
+			      writer.WriteMap(url, hashedName);
 	 		    } catch (IOException iox) {
 	 		      logger.error("Failed to write file: " + filename, iox);
 	 		    }
@@ -312,7 +312,7 @@ public class Crawler extends WebCrawler {
 	 		      logger.info("Stored: {}", url);
 	 		      
 	 		      //Write the map
-			      writer.WriteMap(url, filename);
+			      writer.WriteMap(url, hashedName);
 	 		    } catch (IOException iox) {
 	 		      logger.error("Failed to write file: " + filename, iox);
 	 		    }
@@ -336,7 +336,7 @@ public class Crawler extends WebCrawler {
 	 		      logger.info("Stored: {}", url);
 
 	 		      //Write the map
-			      writer.WriteMap(url, filename);
+			      writer.WriteMap(url, hashedName);
 			      
 	 		    } catch (IOException iox) {
 	 		      logger.error("Failed to write file: " + filename, iox);
