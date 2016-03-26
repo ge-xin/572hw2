@@ -15,15 +15,15 @@ public class Controller {
 	
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
-		String crawlStorageFolder = "data/crawl/"; int numberOfCrawlers = 500;
+		String crawlStorageFolder = "data/crawl/"; int numberOfCrawlers = 600;
 		CrawlConfig config = new CrawlConfig(); 
 		config.setCrawlStorageFolder(crawlStorageFolder);
-		config.setMaxDepthOfCrawling(5);
+		config.setMaxDepthOfCrawling(6);
 		config.setPolitenessDelay(20);
 		
 		
 		//Set the pages fetching limit.
-		config.setMaxPagesToFetch(5000);
+		config.setMaxPagesToFetch(6000);
 		config.setUserAgentString("USC_CS_Crawler1");
 		
 		/*
@@ -58,7 +58,7 @@ public class Controller {
 		//Crawler crawler = new Crawler();
 		
 		
-		WriteCSV writer = new WriteCSV("fetch.csv", "visit.csv", "urls.csv", "stat.csv", "pic.csv", "pagerankdata.csv");
+		WriteCSV writer = new WriteCSV("fetch.csv", "visit.csv", "urls.csv", "stat.csv", "pic.csv", "AdjacencyList.csv");
 		Crawler.configure(crawlStorageFolder, writer);
 		
 		controller.start(Crawler.class, numberOfCrawlers);
