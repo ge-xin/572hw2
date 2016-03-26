@@ -74,14 +74,14 @@ public class WriteCSV {
 	
 	//write the fetch.csv
 	public void WriteFetch(String url, int statusCode) throws IOException{
-		String toWrite = url + ", " + statusCode + "\n";
+		String toWrite = url + "," + statusCode + "\n";
 		fetch_csv.write(toWrite);
 		//fetch_csv.flush();
 	}
 	
 	//write the visit.csv
 	public void WriteVisit(String url, String fileSize, int outlinks, String contentType) throws IOException{
-		String toWrite = url + ", " + fileSize + ", " + outlinks + ", " + contentType + "\n";
+		String toWrite = url + "," + fileSize + "," + outlinks + "," + contentType + "\n";
 		visit_csv.write(toWrite);
 		//visit_csv.flush();
 	}
@@ -89,7 +89,7 @@ public class WriteCSV {
 	
 	//write the urls.csv
 	public void WriteURLs(String url, String decision) throws IOException{
-		String toWrite = url + ", " + decision + "\n";
+		String toWrite = url + "," + decision + "\n";
 		urls_csv.write(toWrite);
 		//urls_csv.flush();
 	}
@@ -97,23 +97,23 @@ public class WriteCSV {
 	//write the stat.csv
 	public void WriteStat(String url, int code) throws IOException{
 		
-		String toWrite = url + ", " + code + "\n";
+		String toWrite = url + "," + code + "\n";
 		stat_csv.write(toWrite);
 		//stat_csv.flush();
 	}
 		
 	public void WritePic(String url, String type) throws IOException{
-		String toWrite = url + ", " + type + "\n";
+		String toWrite = url + "," + type + "\n";
 		pic_csv.write(toWrite);
 		//pic_csv.flush();
 	}
 	
 	//write the pagerankdata.csv
 	public void WriteGraph(String url, Set<WebURL> links) throws IOException{
-		String toWrite = url;
+		String toWrite = url.toLowerCase();
 		Iterator<WebURL> it = links.iterator();
 		while(it.hasNext()){
-			toWrite = toWrite + ", " + it.next().getURL().toLowerCase();
+			toWrite = toWrite + "," + it.next().getURL().toLowerCase();
 		}
 		
 		//a line is finished, create a enter
@@ -127,7 +127,7 @@ public class WriteCSV {
 		try{
 			String insql = "INSERT INTO `572`.`map` (url, filename) VALUES (?, ?);";
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(insql);
-			ps.setString(1, url);
+			ps.setString(1, url.toLowerCase());
 			ps.setString(2, filename);
 			
 			ps.executeUpdate();
@@ -135,6 +135,23 @@ public class WriteCSV {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public boolean isVisited(String url) throws SQLException{
+		String sql = "SELECT * FROM `572`.`map` WHERE `url` = ?";
+		PreparedStatement ps;
+		ResultSet rs = null;
+		try {
+			ps = (PreparedStatement) conn.prepareStatement(sql);
+			ps.setString(1, url);
+			
+			rs = (ResultSet) ps.executeQuery();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs.next();
 	}
 	
 	public Connection getConn() {

@@ -2,6 +2,7 @@ package edu.usc.cs.xinge;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -224,9 +225,18 @@ public class Crawler extends WebCrawler {
     public void visit(Page page) {
 		String url = page.getWebURL().getURL(); System.out.println("URL: " + url);
 		
+		boolean visited = false;
+		try {
+			visited = writer.isVisited(url);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		//Download the HTML file
-		if (page.getParseData() instanceof HtmlParseData) {
+		if ((page.getParseData() instanceof HtmlParseData) && !visited) {
+			
+			
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData(); 
 			String text = htmlParseData.getText();
 			String html = htmlParseData.getHtml();
@@ -259,7 +269,7 @@ public class Crawler extends WebCrawler {
 		}
 		
 		//Download the Binary file
-		if (page.getParseData() instanceof BinaryParseData) {
+		else if ((page.getParseData() instanceof BinaryParseData) && !visited) {
 			float fileSize = page.getContentData().length / 1024;
 			
 			BinaryParseData binaryParseData = (BinaryParseData) page.getParseData(); 
@@ -368,6 +378,7 @@ public class Crawler extends WebCrawler {
 	    		logger.log(null, "This binary file" + url + "is not what we want");
 	    		
 	    	}
+			
 			
 			
 	    }
